@@ -45,7 +45,9 @@
     mabstract=ifelse(is.null(Meta(GDS)$description),"",Meta(GDS)$description)
     mpubmedids=ifelse(is.null(Meta(GDS)$pubmed_id),"",Meta(GDS)$pubmed_id)
     mtitle=ifelse(is.null(Meta(GDS)$title),"",Meta(GDS)$title)
-    featuredata <- new('AnnotatedDataFrame',data=Table(GPL),
+    dt <- Table(GPL)
+    rownames(dt) <- dt$ID
+    featuredata <- new('AnnotatedDataFrame',data=dt,
                        varMetadata=data.frame(Column=Columns(GPL)[,1],
                          labelDescription=Columns(GPL)[,2]))
     eset <- new('ExpressionSet',exprs=expr,phenoData=pheno,
