@@ -43,27 +43,35 @@ parseGDSSubsets <- function(txt) {
   # takes GDS text as input
   # returns a data frame suitable for inclusion as a "Column" slot
   #   in a GDS GeoDataTable object
-  subset.types <-
-    do.call('rbind',strsplit(txt[grep("!subset_type",txt)],' = '))[,2]
-  subset.descriptions <-
-    do.call('rbind',strsplit(txt[grep("!subset_description",txt)],' = '))[,2]
-  subset.samples <-
-    strsplit(do.call('rbind',strsplit(txt[grep("!subset_sample_id",txt)],' = '))[,2],',')
+  numSubsets <- length(grep('^\\^subset',txt,ignore.case=TRUE))
   subset.lists <- list()
-  for(i in 1:length(subset.types)) {
-    for(j in 1:length(subset.samples[[i]])) {
-      subset.lists[[subset.types[i]]][[subset.samples[[i]][j]]] <- subset.descriptions[i]
+  browser()
+  if (numSubsets>0) {
+    subset.types <-
+      do.call('rbind',strsplit(txt[grep("!subset_type",txt)],' = '))[,2]
+    subset.descriptions <-
+      do.call('rbind',strsplit(txt[grep("!subset_description",txt)],' = '))[,2]
+    subset.samples <-
+      strsplit(do.call('rbind',strsplit(txt[grep("!subset_sample_id",txt)],' = '))[,2],',')
+    for(i in 1:length(subset.types)) {
+      for(j in 1:length(subset.samples[[i]])) {
+        subset.lists[[subset.types[i]]][[subset.samples[[i]][j]]] <- subset.descriptions[i]
+      }
     }
   }
   sample.descriptions <-
     do.call('rbind',strsplit(txt[grep('#GSM',txt)],' = '))
   sample.descriptions[,1] <- gsub('#','',sample.descriptions[,1])
   samp.table <- data.frame(sample=as.character(sample.descriptions[,1]))
-  for(i in 1:length(subset.lists)) {
-    samp.table[match(names(subset.lists[[i]]),samp.table[,1]),
-              names(subset.lists)[i]] <- as.factor(unlist(subset.lists[[i]]))
+  if(length(subset.lists)>0) {
+    for(i in 1:length(subset.lists)) {
+      samp.table[match(names(subset.lists[[i]]),samp.table[,1]),
+                 names(subset.lists)[i]] <- as.factor(unlist(subset.lists[[i]]))
+    }
+    colnames(samp.table) <- c('sample',gsub(' ','.',names(subset.lists)))
+  } else {
+    colnames(samp.table) <- 'sample'
   }
-  colnames(samp.table) <- c('sample',gsub(' ','.',names(subset.lists)))
   samp.table[match(sample.descriptions[,1],samp.table[,1]),'description'] <-
     sample.descriptions[,2]
   return(as.data.frame(samp.table))
@@ -196,6 +204,7 @@ parseGDS <- function(txt) {
   tab <- parseGeoData(txt)
   writeLines("parsing subsets")
   cols <- parseGDSSubsets(txt)
+  
   writeLines("ready to return")
   return(new('GDS',
              header=parseGeoMeta(txt),
