@@ -45,7 +45,6 @@ parseGDSSubsets <- function(txt) {
   #   in a GDS GeoDataTable object
   numSubsets <- length(grep('^\\^subset',txt,ignore.case=TRUE))
   subset.lists <- list()
-  browser()
   if (numSubsets>0) {
     subset.types <-
       do.call('rbind',strsplit(txt[grep("!subset_type",txt)],' = '))[,2]
