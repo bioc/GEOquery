@@ -31,7 +31,8 @@ GSEMatrix=FALSE)
   \item{GSEMatrix}{A boolean telling GEOquery whether or not to use GSE
     Series Matrix files from GEO.  The parsing of these files can be
     many orders-of-magnitude faster than parsing the GSE SOFT format
-    files.  Defaults to FALSE, meaning that the SOFT format parsing will occur.}
+    files.  Defaults to FALSE, meaning that the SOFT format parsing will
+    be used; set to TRUE for faster GSEMatrix file parsing.}
 }
 \details{
   getGEO functions to download and parse information available from NCBI
