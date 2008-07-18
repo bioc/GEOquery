@@ -103,7 +103,7 @@ GSEMatrix=TRUE)
 
 \seealso{\code{\link{getGEOfile}}}
 \examples{
-gds <- getGEO("GDS2")
+gds <- getGEO("GDS10")
 gds
 }
 

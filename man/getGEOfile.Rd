@@ -35,7 +35,7 @@ getGEOfile(GEO, destdir = tempdir(), amount = c("full", "brief", "quick", "data"
 \author{Sean Davis}
 \seealso{\code{\link{getGEO}}}
 \examples{
-  myfile <- getGEOfile('GDS2')
+  myfile <- getGEOfile('GDS10')
 }
 
 \keyword{ IO }

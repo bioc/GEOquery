@@ -56,7 +56,7 @@ library(GEOquery)
 This loads the GEOquery library.
 
 <<>>=
-gds <- getGEO('GDS1')
+gds <- getGEO('GDS10')
 @ 
 
 Now, \Robject{gds} contains the R data structure (of class \Rclass{GDS}) that represents the GDS1 entry from GEO.  You'll note that the filename used to store the download was output to the screen (but not saved anywhere) for later use to a call to getGEO(filename=\dots).  
@@ -128,7 +128,7 @@ if(.Platform$OS.type!='windows') {
 Taking our \Robject{gds} object from above, we can simply do:
 
 <<>>=
-eset <- GDS2eSet(gds,do.log2=TRUE)
+eset <- GDS2eSet(gds)
 @ 
 
 Now, \Robject{eset} is an \Rclass{ExpressionSet} that contains the same information as in the GEO dataset, including the sample information, which we can see here:
@@ -156,7 +156,7 @@ MA <- GDS2MA(gds,GPL=gpl)
 MA
 @ 
 
-Now, \Robject{MA} is of class \Rclass{MAList} and contains not only the data, but the sample information and gene information associated with GDS1.
+Now, \Robject{MA} is of class \Rclass{MAList} and contains not only the data, but the sample information and gene information associated with GDS10.
 
 \subsection{Converting GSE to an ExpressionSet}
 First, make sure that using the method described above in the section ``Getting GSE Series Matrix files as an ExpressionSet'' for using GSE Series Matrix files is not sufficient for the task, as it is much faster and simpler.  If it is not (i.e., other columns from each GSM are needed), then this method will be needed.  
