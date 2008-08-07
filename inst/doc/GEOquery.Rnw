@@ -5,7 +5,7 @@
 %\VignettePackage{GEOquery}
 \documentclass[12pt,fullpage]{article}
 
-\usepackage{amsmath,epsfig,pstricks,fullpage}
+\usepackage{amsmath,epsfig,fullpage}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage[authoryear,round]{natbib}
@@ -114,13 +114,11 @@ available as SOFT format files, which are quite large, NCBI GEO has prepared a
 simpler format file based on tab-delimited text.  The \Rfunction{getGEO}
 function can handle this format and will parse very large GSEs quite quickly.
 The data structure returned from this parsing is a list of ExpressionSets.  As
-an example, we download and parse GSE2553.  Unfortunately, GSEMatrix parsing is not currently available on windows.
+an example, we download and parse GSE2553.  
 <<>>=  
-if(.Platform$OS.type!='windows') {
-  gse2553 <- getGEO('GSE2553',GSEMatrix=TRUE)
-  show(gse2553)
-  show(pData(phenoData(gse2553[[1]]))[1:5,c(1,6,8)])
-}
+gse2553 <- getGEO('GSE2553',GSEMatrix=TRUE)
+show(gse2553)
+show(pData(phenoData(gse2553[[1]]))[1:5,c(1,6,8)])
 @ 
 
 \subsection{Converting GDS to an ExpressionSet}
@@ -128,7 +126,7 @@ if(.Platform$OS.type!='windows') {
 Taking our \Robject{gds} object from above, we can simply do:
 
 <<>>=
-eset <- GDS2eSet(gds)
+eset <- GDS2eSet(gds,do.log2=TRUE)
 @ 
 
 Now, \Robject{eset} is an \Rclass{ExpressionSet} that contains the same information as in the GEO dataset, including the sample information, which we can see here:
@@ -156,7 +154,7 @@ MA <- GDS2MA(gds,GPL=gpl)
 MA
 @ 
 
-Now, \Robject{MA} is of class \Rclass{MAList} and contains not only the data, but the sample information and gene information associated with GDS10.
+Now, \Robject{MA} is of class \Rclass{MAList} and contains not only the data, but the sample information and gene information associated with GDS1.
 
 \subsection{Converting GSE to an ExpressionSet}
 First, make sure that using the method described above in the section ``Getting GSE Series Matrix files as an ExpressionSet'' for using GSE Series Matrix files is not sufficient for the task, as it is much faster and simpler.  If it is not (i.e., other columns from each GSM are needed), then this method will be needed.  
