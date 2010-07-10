@@ -39,10 +39,10 @@ getGEOfile <- function(GEO,destdir=tempdir(),AnnotGPL=FALSE,
       mode <- 'w'
     }
     download.file(myurl,destfile,mode=mode,quiet=TRUE)
-    if(length(grep('\\.gz',destfile,perl=TRUE))>0) {
-      gunzip(destfile,overwrite=TRUE,remove=TRUE)
-      destfile <- sub('\\.gz$','',destfile)
-    }
+#    if(length(grep('\\.gz',destfile,perl=TRUE))>0) {
+#      gunzip(destfile,overwrite=TRUE,remove=TRUE)
+#      destfile <- sub('\\.gz$','',destfile)
+#    }
     writeLines('File stored at: ')
     writeLines(destfile)
     invisible(destfile)
