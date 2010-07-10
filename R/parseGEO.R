@@ -274,9 +274,15 @@ parseGDS <- function(fname) {
   hasDataTable=FALSE
   while(i <- i+1) {
     tmp <- try(readLines(con,1))
-    if(inherits(tmp,"try-error") | length(tmp)==0 | i==n) {
+    if(inherits(tmp,"try-error") | length(tmp)==0 ) {
       hasDataTable=FALSE
       break
+    }
+    if(!is.null(n)) {
+      if(i==n) {
+        hasDataTable=FALSE
+        break
+      }
     }
     txt[i] <- tmp
     if(length(grep('!\\w+_table_begin',txt[i],perl=TRUE))>0) {
